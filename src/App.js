@@ -1,97 +1,47 @@
-import React from 'react';
-import {useState} from 'react';
+import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom"
+import Home from "./routes/Home"
+import Movie from "./routes/Movie";
+import Tictactoe from "./routes/Tictactoe";
+import Counter from "./routes/Counter";
+import Converter from "./routes/Converter";
+import Coin from "./routes/Coin";
+import Todo from "./routes/Todo";
+import PropTest from "./routes/PropTest";
+import MovieDetail from "./component/movie/Detail";
+import NotFound from "./routes/NotFound";
 
-function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-    ];
-    for (let i = 0; i <lines.length; i++) {
-        const [a,b,c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
-        }
-    }
-    return null;
-}
 
-function Square({value, onSquareClick}) {
-    return <button className="square" onClick={onSquareClick}>{value}</button>;
-}
-
-function Board({xIsNext, squares, onPlay}) {
-    function handleClick(i) {
-        const nextSquares = squares.slice();
-        if(nextSquares[i] || calculateWinner(squares)) {
-            return;
-        }
-        nextSquares[i] = xIsNext ? 'X' : 'O';
-        onPlay(nextSquares);
-    }
-
-    const winner = calculateWinner(squares);
-    let status = winner ? "Winner: " + winner : "Next player: " + (xIsNext ? 'X' : 'O');
-
+export default function App() {
     return (
-      <React.Fragment>
-            <div className="status">{status}</div>
-            <div className="board-row">
-                <Square value={squares[0]} onSquareClick={()=>handleClick(0)} />
-                <Square value={squares[1]} onSquareClick={()=>handleClick(1)} />
-                <Square value={squares[2]} onSquareClick={()=>handleClick(2)} />
+        <Router>
+            <div className="container">
+                <div className="sidebar">
+                    <h1>메뉴</h1>
+                    <ul>
+                        <li><Link to="/tictactoe">Tic-tac-toe</Link></li>
+                        <li><Link to="/counter">counter</Link></li>
+                        <li><Link to="/converter">converter</Link></li>
+                        <li><Link to="/todo">todo</Link></li>
+                        <li><Link to="/propTest">propTest</Link></li>
+                        <li><Link to="/coin">coin</Link></li>
+                        <li><Link to="/movie">Movie</Link></li>
+                    </ul>
+                </div>
+                <div className="content">
+                    <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/movie" element={<Movie />} />
+                    <Route path="/movie/detail" element={<MovieDetail />} />
+                    <Route path="/tictactoe" element={<Tictactoe />} />
+                    <Route path="/counter" element={<Counter />} />
+                    <Route path="/converter" element={<Converter />} />
+                    <Route path="/coin" element={<Coin />} />
+                    <Route path="/todo" element={<Todo />} />
+                    <Route path="/propTest" element={<PropTest />} />
+                    <Route path="*" element={<NotFound />} />
+                    </Routes>
+                </div>
             </div>
-            <div className="board-row">
-                <Square value={squares[3] } onSquareClick={()=>handleClick(3)} />
-                <Square value={squares[4]} onSquareClick={()=>handleClick(4)} />
-                <Square value={squares[5]} onSquareClick={()=>handleClick(5)} />
-            </div>
-            <div className="board-row">
-                <Square value={squares[6]} onSquareClick={()=>handleClick(6)} />
-                <Square value={squares[7]} onSquareClick={()=>handleClick(7)} />
-                <Square value={squares[8]} onSquareClick={()=>handleClick(8)} />
-            </div>
-      </React.Fragment>
-    );
-}
-
-export default function Game() {
-    const [history, setHistory] = useState([Array(9).fill(null)]);
-    const [currentMove, setCurrentMove] = useState(0);
-    const currentSquares = history[currentMove];
-    const xIsNext = (currentMove % 2) === 0;
-
-    function handlePlay(nextSquares) {
-        const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
-        setHistory(nextHistory);
-        setCurrentMove(nextHistory.length -1);
-    }
-
-    function jumpTo(nextMove) {
-        setCurrentMove(nextMove);
-    }
-    const moves = history.map((squares, move) => {
-        let description = move > 0 ? 'Go to move #' + move : 'Go to game start';
-        return (
-            <li key={move}>
-                <button onClick={()=>jumpTo(move)}>{description}</button>
-            </li>
-        );
-    });
-
-    return (
-        <div className="game">
-            <div className="game-board">
-                <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
-            </div>
-            <div className="game-info">
-                <ol>{moves}</ol>
-            </div>
-        </div>
+        </Router>
     );
 }

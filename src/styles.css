@@ -88,3 +88,19 @@ body {
 .game-info {
   margin-left: 20px;
 }
+
+.container {
+  display: flex;
+}
+
+.sidebar {
+  width: 250px; /* 원하는 너비 설정 */
+  height: 100vh;
+  background-color: #f4f4f4; /* 원하는 배경색 설정 */
+  overflow-y: auto; /* 만약 메뉴가 많아질 경우 스크롤 생성 */
+}
+
+.content {
+  flex: 1; /* 나머지 공간 모두 사용 */
+  padding: 20px;
+}
