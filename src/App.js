@@ -31,7 +31,7 @@ export default function App() {
                     <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/movie" element={<Movie />} />
-                    <Route path="/movie/detail" element={<MovieDetail />} />
+                    <Route path="/movie/:id" element={<MovieDetail />} />
                     <Route path="/tictactoe" element={<Tictactoe />} />
                     <Route path="/counter" element={<Counter />} />
                     <Route path="/converter" element={<Converter />} />
