@@ -38,7 +38,7 @@ export default function MovieList() {
                     <img 
                         src={movie.small_cover_image}
                     />
-                    <h2><Link to="/movie/detail">{movie.title}</Link></h2> 
+                    <h2><Link to={`/movie/${movie.id}`}>{movie.title}</Link></h2> 
                     <p>{movie.summary}</p>
                     <ul>
                         {movie.genres.map((g) => {
